@@ -33,11 +33,12 @@ body{
 .poster .image{
   position: absolute;
   width: 75%;
-  height: auto;
+  height: 60vh;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
   z-index: -1;
+  object-fit: cover;
 }
 
 .poster div.part{
@@ -60,7 +61,9 @@ h2{
 .categories{
   display: flex;
   flex-wrap: wrap;
-  margin-top: 50px;
+  max-height: 40vh;
+  flex-direction: column;
+  margin-top: 10px;
 }
 
 .category{
@@ -75,34 +78,14 @@ h2{
   align-items: center;
   text-align: center;
   aspect-ratio: 1/1;
-  margin-right: 14px;
+  margin-right: 1vh;
+  margin-bottom: 1vh;
   font-family: "Montserrat";
-  font-size: 2vh;
   flex-direction: column;
   overflow: hidden;
   -webkit-box-shadow: 2px 2px 18px -2px rgba(0,0,0,0.2);
   -moz-box-shadow: 2px 2px 18px -2px rgba(0,0,0,0.2);
   box-shadow: 2px 2px 18px -2px rgba(0,0,0,0.2);
-}
-
-.category:nth-child(2){
-  margin-top: -10vh;
-  margin-left: 15vh;
-}
-
-.category:nth-child(3){
-  margin-top: -1vh;
-  margin-left: 7vh;
-}
-
-.category:nth-child(4){
-  margin-top: -6vh;
-  margin-left: 20vh;
-}
-
-.category:nth-child(5){
-  margin-top: -9vh;
-  margin-left: 0vh;
 }
 
 
@@ -120,8 +103,22 @@ h2{
 
 .poster .left-bottom.part{
   display: flex;
-  /* justify-content: end; */
-  align-items: end;
+  flex-direction: column;
+  justify-content: end;
+  align-items: start;
+}
+
+.left-bottom .small{
+  margin-top: 14px;
+}
+
+.right-top .small{
+  text-align: right;
+  margin-bottom: 14px;
+}
+
+.small{
+  font-size: 1vh;
 }
 
 .quote2{
@@ -147,7 +144,7 @@ h2{
   text-align: center;
   aspect-ratio: 1/1;
   font-family: "Montserrat";
-  font-size: 4.5vh;
+  font-size: 4vh;
   margin-left: 10%;
   margin-top: 10px;
 }
@@ -168,4 +165,46 @@ h2{
     min-width: 2ch; 
     text-align: center; 
     font-family: monospace; 
+}
+
+.logo{
+  position: absolute;
+  bottom: 14px;
+  right: 14px;
+  width: 40%;
+  height: auto;
+}
+
+#fileInput{
+  position: absolute;
+  top: 14px;
+  left: 14px;
+}
+
+.refresh{
+  position: absolute;
+  top: 14px;
+  right: 14px;
+}
+
+.animate{
+  position: absolute;
+  top: 55px;
+  right: 14px;
+}
+
+.print{
+  position: absolute;
+  right: 14px;
+  bottom: 14px;
+}
+
+.button{
+  border: 1px solid black;
+  padding: 5px 20px;
+}
+
+.active{
+  background-color: black;
+  color: white;
 }

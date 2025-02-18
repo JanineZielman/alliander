@@ -5,27 +5,36 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Alliander</title>
   <link rel="stylesheet" href="style.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
 </head>
 <body>
+  <input type="file" id="fileInput" accept=".xlsx" />
+  <div class="print button" onclick="window.print()">print</div>
+  <div class="refresh button" onclick="refresh()">refresh</div>
+  <div class="animate button" onclick="toggleAnimation()">animate</div>
   <div class="container"></div>
   <div class="poster">
-    <img class="image" src="test.jpeg"/>
+    <img class="image" src="img.jpg"/>
     <div class="left-top part">
+      <div class="small">impact voor de samenleving</div>
       <div id="percentage"></div>
       <div id="statement"></div>
       <div id="amount"></div>
     </div>
     <div class="right-top part">
+      <div class="small">impact voor de ander</div>
       <div id="quote"></div>
     </div>
     <div class="left-bottom part">
       <div class="quote2">
+        
         " Het is zo fijn als
         iemand even kan
         helpen met de
         klussen die ik niet
-        meer kan."
+        meer kan. "
       </div>
+      <div class="small">impact voor jou</div>
     </div>
     <div class="right-bottom part">
       <h2>
@@ -37,6 +46,7 @@
       <div class="categories" id="categories">
 
       </div>
+      <img class="logo" src="Aliiander_Foundation_Logo's_Wit_RGB.svg"/>
     </div>
   </div>
   <script src="fetch.js"></script>
