@@ -37,9 +37,12 @@ body{
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
+  transform-origin: left top;
   z-index: -1;
   object-fit: cover;
+  opacity: 0;
 }
+
 
 .poster div.part{
   width: 50%;
@@ -207,4 +210,10 @@ h2{
 .active{
   background-color: black;
   color: white;
+}
+
+@media print{
+  .button, input{
+    display: none;
+  }
 }

@@ -123,6 +123,11 @@ async function fetchAndProcessData(file) {
         quoteElem.innerHTML = '"' + filteredData[randomNumber].quote + '"';
         fadeInWithDelay(quoteElem, 1.33);
 
+        const imgNew = document.getElementById('img');
+        imgNew.src = '/' + filteredData[randomNumber].categorie + '.jpg';
+        fadeInWithDelay(imgNew, 0.1);
+
+
         const categories = document.getElementById('categories');
 
         // Sort categories from highest to lowest percentage and get the top 5
@@ -208,7 +213,7 @@ let interval; // Declare the interval variable outside the function
       if (file) {
         interval = setInterval(function() {
           fetchAndProcessData(file);
-        }, 5000);
+        }, 10000);
         button.classList.add('active'); // Add the active class
         isActive = true; // Set the flag to true
       }
