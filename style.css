@@ -1,4 +1,14 @@
-@import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap');
+@font-face {
+  font-family: gotham;
+  src: url(/gothamlight-webfont.woff2);
+  font-weight: 100;
+}
+
+@font-face {
+  font-family: gotham;
+  src: url(/gothambook-webfont.woff2);
+  font-weight: 300;
+}
 
 
 body{
@@ -9,7 +19,7 @@ body{
   align-items: center;
   width: 100vw;
   height: 100vh;
-  font-family: "Montserrat";
+  font-family: gotham;
 }
 
 *{
@@ -32,7 +42,7 @@ body{
 
 .poster .image{
   position: absolute;
-  width: 75%;
+  width: 65%;
   height: 60vh;
   top: 50%;
   left: 50%;
@@ -41,6 +51,7 @@ body{
   z-index: -1;
   object-fit: cover;
   opacity: 0;
+  border-radius: 25px;
 }
 
 
@@ -50,12 +61,10 @@ body{
   /* border: 0.5px solid black; */
   position: relative;
   padding: 1.5vh;
-  overflow: hidden;
 }
 
 h2{
   margin: 0;
-  font-family: "Montserrat";
   font-weight: 500;
   color: white;
   font-size: 3vh;
@@ -83,7 +92,6 @@ h2{
   aspect-ratio: 1/1;
   margin-right: 1vh;
   margin-bottom: 1vh;
-  font-family: "Montserrat";
   flex-direction: column;
   overflow: hidden;
   -webkit-box-shadow: 2px 2px 18px -2px rgba(0,0,0,0.2);
@@ -94,14 +102,44 @@ h2{
 
 #percentage{
   font-size: 9vh;
-  font-family: "Montserrat";
-  margin-left: 14px;
+  margin-left: 22%;
+  line-height: 1;
+  margin-top: 1vh;
 }
 
 #quote{
   font-size: 2.3vh;
   font-weight: 300;
   max-width: 80%;
+  margin-left: 20%;
+  margin-top: 2vh;
+}
+
+.left-top{
+  overflow: visible;
+}
+
+.left-top:before{
+  content: "";
+  position: absolute;
+  z-index: -9;
+  width: 85%;
+  margin-left: 15%;
+  height: 120%;
+  background-color: rgb(170,236, 88);
+  border-radius: 25px;
+}
+
+.right-bottom:before{
+  content: "";
+  position: absolute;
+  z-index: -9;
+  width: 100%;
+  height: 120%;
+  right: 1.5vh;
+  bottom: 8vh;
+  background-color: rgb(9,97, 51);
+  border-radius: 25px;
 }
 
 .poster .left-bottom.part{
@@ -109,6 +147,14 @@ h2{
   flex-direction: column;
   justify-content: end;
   align-items: start;
+}
+
+.left-top .small{
+  transform: rotate(-90deg) translate(-50%, -100%);
+  position: absolute;
+  top: 1.5vh;
+  left: -15%;
+  font-size: 1.5vh;
 }
 
 .left-bottom .small{
@@ -121,7 +167,7 @@ h2{
 }
 
 .small{
-  font-size: 1vh;
+  font-size: 1.5vh;
 }
 
 .quote2{
@@ -131,8 +177,8 @@ h2{
 }
 
 #statement{
-  font-size: 2vh;
-  margin-left: 14px;
+  font-size: 1.8vh;
+  margin-left: 22%;
 }
 
 #amount{
@@ -140,16 +186,19 @@ h2{
   border-radius: 50%;
   width: fit-content;
   height: fit-content;
+  min-width: 12vh;
+  min-height: 12vh;
   padding: 20px;
   display: flex;
   justify-content: center;
   align-items: center;
   text-align: center;
   aspect-ratio: 1/1;
-  font-family: "Montserrat";
-  font-size: 4vh;
-  margin-left: 10%;
-  margin-top: 10px;
+  font-size: 3vh;
+  position: absolute;
+  left: 1.5vh;
+  bottom: 10%;
+  line-height: 1;
 }
 
 @keyframes fadeIn {
@@ -172,8 +221,8 @@ h2{
 
 .logo{
   position: absolute;
-  bottom: 14px;
-  right: 14px;
+  bottom: 3vh;
+  right: 1.5vh;
   width: 40%;
   height: auto;
 }

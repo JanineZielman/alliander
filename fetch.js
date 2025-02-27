@@ -124,7 +124,7 @@ async function fetchAndProcessData(file) {
         fadeInWithDelay(quoteElem, 1.33);
 
         const imgNew = document.getElementById('img');
-        imgNew.src = '/' + filteredData[randomNumber].categorie + '.jpg';
+        imgNew.src = '/' + filteredData[randomNumber].categorie.replace('&', '_').replaceAll(' ', '-') + '.jpg';
         fadeInWithDelay(imgNew, 0.1);
 
 
