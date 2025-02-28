@@ -43,25 +43,16 @@ async function fetchAndProcessData(file) {
             }
         });
 
-        console.log(categoryData)
-
         const filteredData = [];
         const categoryCounts = {};
-        const vrijwilligersTotaal = rows[rows.length - 1][1]
         const urenTotaal = rows[rows.length - 1][2]
-
-        console.log(categoryCounts)
-
-        console.log(urenTotaal)
 
         rows.forEach((cells) => {
             if (cells.length >= 7) { // Ensure enough columns exist
-                const aantalVrijwilliger = cells[1];
                 const aantalUren = cells[2];
                 const maatschappelijkeOrganisatie = cells[3];
                 const locatie = cells[5];
                 const categorie = cells[6];
-                const activiteit = cells[7];
                 const quote1 = categoryData[categorie].quote1 ? categoryData[categorie].quote1 : "Vrijwilligerswerk is belangrijk!";
                 const quote2 = categoryData[categorie].quote2 ? categoryData[categorie].quote2 : "Vrijwilligerswerk is belangrijk!";
                 const imageFile = categoryData[categorie].image ? categoryData[categorie].image : "default";
@@ -69,7 +60,6 @@ async function fetchAndProcessData(file) {
 
                 if (aantalUren && categorie) { // Filter rows with both B and D
                     const aantal = parseInt(aantalUren, 10) || 0;
-                    // const aantalV = parseInt(aantalVrijwilliger, 10) || 0;
 
                     // Update counts for each category
                     categoryCounts[categorie] = ((categoryCounts[categorie] || 0) + aantal);
@@ -78,7 +68,6 @@ async function fetchAndProcessData(file) {
                     filteredData.push({
                         maatschappelijkeOrganisatie,
                         aantalUren: aantal,
-                        // aantalVrijwilliger: aantalV,
                         categorie,
                         quote1,
                         quote2,
@@ -140,7 +129,7 @@ async function fetchAndProcessData(file) {
         animateCount(percentage, 0, categoryCounts[filteredData[randomNumber].categorie] / urenTotaal * 100, 1000, 0.5, '%');
 
         const statement = document.getElementById('statement');
-        statement.innerHTML = 'doen vrijwilligerswerk in de <br/>' + filteredData[randomNumber].categorie;
+        statement.innerHTML = 'doet vrijwilligerswerk in de <br/>' + filteredData[randomNumber].categorie;
         fadeInWithDelay(statement, 0.66);
 
         const amount = document.getElementById('amount');
