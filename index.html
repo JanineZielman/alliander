@@ -13,39 +13,41 @@
   <div class="refresh button" onclick="refresh()">refresh</div>
   <div class="animate button" onclick="toggleAnimation()">animate</div>
   <div class="container"></div>
-  <div class="poster">
-    <img class="image" id="img" src=""/>
-    <div class="left-top part">
-      <div class="small">impact voor de samenleving</div>
-      <div id="percentage"></div>
-      <div id="statement"></div>
-      <div id="amount"></div>
-    </div>
-    <div class="right-top part">
-      <div class="small">impact voor de ander</div>
-      <div id="quote"></div>
-    </div>
-    <div class="left-bottom part">
-      <div class="quote2">  
-        " Het is zo fijn als
-        iemand even kan
-        helpen met de
-        klussen die ik niet
-        meer kan. "
+  <div id="posterWrap">
+    <div class="poster">
+      <img class="image" id="img" src=""/>
+      <div class="left-top part">
+        <div class="small">impact voor de samenleving</div>
+        <div id="percentage"></div>
+        <div id="statement"></div>
+        <div id="amount"></div>
       </div>
-      <div class="small">impact voor jou</div>
-    </div>
-    <div class="right-bottom part">
-      <h2>
-        energie <br/>
-        voor jou, <br/>
-        de ander <br/>
-        en de wereld
-      </h2>
-      <div class="categories" id="categories">
+      <div class="right-top part">
+        <div class="small">impact voor de ander</div>
+        <div id="quote"></div>
+      </div>
+      <div class="left-bottom part">
+        <div class="quote2" id="quote2">  
+          " Het is zo fijn als
+          iemand even kan
+          helpen met de
+          klussen die ik niet
+          meer kan. "
+        </div>
+        <div class="small">impact voor jou</div>
+      </div>
+      <div class="right-bottom part">
+        <h2>
+          energie <br/>
+          voor jou, <br/>
+          de ander <br/>
+          en de wereld
+        </h2>
+        <div class="categories" id="categories">
 
+        </div>
+        <img class="logo" src="/logo.svg"/>
       </div>
-      <img class="logo" src="/logo.svg"/>
     </div>
   </div>
   <script src="fetch.js"></script>

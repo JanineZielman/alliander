@@ -4,22 +4,46 @@ async function readLocalXLSX(file) {
         reader.onload = (event) => {
             const data = new Uint8Array(event.target.result);
             const workbook = XLSX.read(data, { type: "array" });
-            const sheetName = workbook.SheetNames[0]; // Read the first sheet
-            const sheet = workbook.Sheets[sheetName];
-            const jsonData = XLSX.utils.sheet_to_json(sheet, { header: 1 }); // Convert to an array of rows
-            resolve(jsonData);
+
+            // Read first sheet (volunteer data)
+            const sheet1Name = workbook.SheetNames[0]; 
+            const sheet1 = workbook.Sheets[sheet1Name];
+            const jsonData1 = XLSX.utils.sheet_to_json(sheet1, { header: 1 });
+
+            // Read second sheet (category info)
+            const sheet2Name = workbook.SheetNames[1];
+            const sheet2 = workbook.Sheets[sheet2Name];
+            const jsonData2 = XLSX.utils.sheet_to_json(sheet2, { header: 1 });
+
+            resolve({ volunteerData: jsonData1, categoryInfo: jsonData2 });
         };
         reader.onerror = reject;
         reader.readAsArrayBuffer(file);
     });
 }
 
+
 async function fetchAndProcessData(file) {
     try {
-        const data = await readLocalXLSX(file);
+        const { volunteerData, categoryInfo } = await readLocalXLSX(file);
+
 
         // Extract the rows, assuming first row is the header
-        const rows = data.slice(1); // Skip header
+        const rows = volunteerData.slice(1); // Skip header row
+
+        const categoryData = {};
+        categoryInfo.slice(1).forEach(row => {
+            const [categorie, imageFile, quote1, quote2] = row;
+            if (categorie) {
+                categoryData[categorie] = {
+                    quote1: quote1,
+                    quote2: quote2,
+                    image: imageFile
+                };
+            }
+        });
+
+        console.log(categoryData)
 
         const filteredData = [];
         const categoryCounts = {};
@@ -35,10 +59,12 @@ async function fetchAndProcessData(file) {
                 const aantalVrijwilliger = cells[1];
                 const aantalUren = cells[2];
                 const maatschappelijkeOrganisatie = cells[3];
-                const plaats = cells[4];
-                const categorie = cells[5];
-                const activiteit = cells[6];
-                const quote = 'Het gevoel iets te betekenen voor een ander is fijn'
+                const locatie = cells[5];
+                const categorie = cells[6];
+                const activiteit = cells[7];
+                const quote1 = categoryData[categorie].quote1 ? categoryData[categorie].quote1 : "Vrijwilligerswerk is belangrijk!";
+                const quote2 = categoryData[categorie].quote2 ? categoryData[categorie].quote2 : "Vrijwilligerswerk is belangrijk!";
+                const imageFile = categoryData[categorie].image ? categoryData[categorie].image : "default";
 
 
                 if (aantalUren && categorie) { // Filter rows with both B and D
@@ -54,7 +80,9 @@ async function fetchAndProcessData(file) {
                         aantalUren: aantal,
                         // aantalVrijwilliger: aantalV,
                         categorie,
-                        quote,
+                        quote1,
+                        quote2,
+                        imageFile
                     });
                 }
             }
@@ -120,12 +148,19 @@ async function fetchAndProcessData(file) {
         animateCount2(amount, 0, categoryCounts[filteredData[randomNumber].categorie], 1000, 1, ' uur');
 
         const quoteElem = document.getElementById('quote');
-        quoteElem.innerHTML = '"' + filteredData[randomNumber].quote + '"';
+        quoteElem.innerHTML = '"' + filteredData[randomNumber].quote1 + '"';
         fadeInWithDelay(quoteElem, 1.33);
 
+        const quoteElem2 = document.getElementById('quote2');
+        quoteElem2.innerHTML = '"' + filteredData[randomNumber].quote2 + '"';
+        fadeInWithDelay(quoteElem2, 1.33);
+
         const imgNew = document.getElementById('img');
-        imgNew.src = '/' + filteredData[randomNumber].categorie.replace('&', '_').replaceAll(' ', '-') + '.jpg';
+        imgNew.src = '/' + filteredData[randomNumber].imageFile + '.jpg';
         fadeInWithDelay(imgNew, 0.1);
+
+        const poster = document.getElementById('posterWrap');
+        poster.className = filteredData[randomNumber].categorie;
 
 
         const categories = document.getElementById('categories');

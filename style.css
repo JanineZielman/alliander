@@ -52,6 +52,7 @@ body{
   object-fit: cover;
   opacity: 0;
   border-radius: 25px;
+  filter: brightness(0.9)
 }
 
 
@@ -110,14 +111,61 @@ h2{
 #quote{
   font-size: 2.3vh;
   font-weight: 300;
-  max-width: 80%;
-  margin-left: 20%;
-  margin-top: 2vh;
+  max-width: 85%;
+  margin-left: 10%;
+  margin-top: 1.5vh;
 }
 
 .left-top{
   overflow: visible;
 }
+
+.nieuwkomers .left-top:before{
+  background-color: rgb(200,200, 200);
+}
+
+.nieuwkomers .right-bottom:before {
+  background-color: rgb(170,236, 88);
+}
+.ouderen .left-top:before{
+  background-color: rgb(130,31, 125);
+}
+.ouderen  .right-bottom:before{
+  background-color: rgb(200,200, 200);
+}
+.beperking .left-top:before{
+  background-color: rgb(200,200, 200);
+}
+
+.beperking  .right-bottom:before{
+  background-color: rgb(130,31, 125);
+}
+
+.natuur .left-top:before{
+  background-color: rgb(170,236, 88);
+}
+
+.natuur .right-bottom:before {
+  background-color: rgb(9,97, 51);
+}
+
+.hulp .left-top:before{
+  background-color: rgb(9,97, 51);
+}
+
+.hulp .right-bottom:before{
+  background-color: rgb(200,200, 200);
+}
+
+.kinderen .left-top:before{
+  background-color: rgb(9,97, 51);
+}
+
+.kinderen .right-bottom:before{
+  background-color: rgb(170,236, 88);
+}
+
+
 
 .left-top:before{
   content: "";
@@ -126,8 +174,9 @@ h2{
   width: 85%;
   margin-left: 15%;
   height: 120%;
-  background-color: rgb(170,236, 88);
   border-radius: 25px;
+  animation: fadeIn 1s forwards;
+  transition: all 1s ease;
 }
 
 .right-bottom:before{
@@ -138,8 +187,9 @@ h2{
   height: 120%;
   right: 1.5vh;
   bottom: 8vh;
-  background-color: rgb(9,97, 51);
   border-radius: 25px;
+  animation: fadeIn 1s forwards;
+  transition: all 1s ease;
 }
 
 .poster .left-bottom.part{
