@@ -100,6 +100,40 @@ h2{
   box-shadow: 2px 2px 18px -2px rgba(0,0,0,0.2);
 }
 
+.locations{
+  display: none;
+  flex-wrap: wrap;
+  max-height: 40vh;
+  max-width: 805;
+  /* flex-direction: column; */
+  margin-top: 0;
+  justify-content: right;
+  align-items: end;
+  
+}
+
+.location{
+  display: inline-block;
+  background-color: white;
+  border-radius: 50%;
+  width: fit-content;
+  height: fit-content;
+  padding: 14px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  aspect-ratio: 1/1;
+  margin-right: 1vh;
+  margin-bottom: 1vh;
+  flex-direction: column;
+  overflow: hidden;
+  -webkit-box-shadow: 2px 2px 18px -2px rgba(0,0,0,0.2);
+  -moz-box-shadow: 2px 2px 18px -2px rgba(0,0,0,0.2);
+  box-shadow: 2px 2px 18px -2px rgba(0,0,0,0.2);
+}
+
+
 
 #percentage{
   font-size: 9vh;
@@ -247,7 +281,7 @@ h2{
   font-size: 3vh;
   position: absolute;
   left: 1.5vh;
-  bottom: 10%;
+  bottom: 60%;
   line-height: 1;
 }
 
@@ -295,6 +329,12 @@ h2{
   right: 14px;
 }
 
+.locationSwitch{
+  position: absolute;
+  top: 95px;
+  right: 14px;
+}
+
 .print{
   position: absolute;
   right: 14px;
@@ -315,4 +355,31 @@ h2{
   .button, input{
     display: none;
   }
+  .poster{
+    -webkit-box-shadow: none;
+    -moz-box-shadow: none;
+    box-shadow: none;
+  }
+
+}
+
+.poster.loc .categories{
+  display: none;
+}
+
+.poster.loc .locations{
+  display: flex;
+}
+
+/* .poster.loc #amount{
+  position: absolute;
+  bottom: 10vh;
+  right: 5%;
+  left: auto;
+} */
+
+.poster.loc h2{
+  position: absolute;
+  left: -60%;
+  bottom: 45%;
 }

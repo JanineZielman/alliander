@@ -12,15 +12,15 @@
   <div class="print button" onclick="window.print()">print</div>
   <div class="refresh button" onclick="refresh()">refresh</div>
   <div class="animate button" onclick="toggleAnimation()">animate</div>
+  <div class="locationSwitch button" onclick="locationSwitch()">location</div>
   <div class="container"></div>
   <div id="posterWrap">
-    <div class="poster">
+    <div class="poster" id="poster">
       <img class="image" id="img" src=""/>
       <div class="left-top part">
         <div class="small">impact voor de samenleving</div>
         <div id="percentage"></div>
         <div id="statement"></div>
-        <div id="amount"></div>
       </div>
       <div class="right-top part">
         <div class="small">impact voor de ander</div>
@@ -40,8 +40,12 @@
         <div class="categories" id="categories">
 
         </div>
+        <div class="locations" id="locations">
+
+        </div>
         <img class="logo" src="/logo.svg"/>
       </div>
+      <div id="amount"></div>
     </div>
   </div>
   <script src="fetch.js"></script>
