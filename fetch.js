@@ -159,7 +159,7 @@ async function fetchAndProcessData(file) {
         fadeInWithDelay(quoteElem2, 1.33);
 
         const imgNew = document.getElementById('img');
-        imgNew.src = '/' + filteredData[randomNumber].imageFile + '.jpg';
+        imgNew.src = 'view_image.php?file=' + filteredData[randomNumber].imageFile + '.jpg';
         fadeInWithDelay(imgNew, 0.1);
 
         const poster = document.getElementById('posterWrap');
