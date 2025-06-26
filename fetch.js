@@ -143,7 +143,7 @@ async function fetchAndProcessData(file) {
         animateCount(percentage, 0, categoryCounts[filteredData[randomNumber].categorie] / urenTotaal * 100, 1000, 0.5, '%');
 
         const statement = document.getElementById('statement');
-        statement.innerHTML = 'doet vrijwilligerswerk in de <br/>' + filteredData[randomNumber].categorie;
+        statement.innerHTML = 'doet vrijwilligerswerk ' + filteredData[randomNumber].categorie;
         fadeInWithDelay(statement, 0.66);
 
         const amount = document.getElementById('amount');
