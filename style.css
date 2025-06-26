@@ -197,6 +197,7 @@ h2{
   background-color: rgb(9,97, 51);
 }
 
+
 .hulp .right-bottom:before{
   background-color: rgb(200,200, 200);
 }
@@ -207,6 +208,10 @@ h2{
 
 .kinderen .right-bottom:before{
   background-color: rgb(170,236, 88);
+}
+
+.hulp .left-top, .kinderen .left-top{
+  color: white;
 }
 
 
