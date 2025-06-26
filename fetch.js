@@ -23,13 +23,36 @@ async function readLocalXLSX(file) {
 }
 
 
+function normalizePercentages(countMap) {
+    const total = Object.values(countMap).reduce((sum, val) => sum + val, 0);
+    const entries = Object.entries(countMap).map(([key, value]) => {
+        const raw = (value / total) * 100;
+        return {
+            key,
+            value,
+            raw,
+            floored: Math.floor(raw),
+            decimal: raw % 1
+        };
+    });
+
+    const flooredTotal = entries.reduce((sum, item) => sum + item.floored, 0);
+    const remainder = 100 - flooredTotal;
+
+    entries.sort((a, b) => b.decimal - a.decimal);
+
+    for (let i = 0; i < remainder; i++) {
+        entries[i].floored += 1;
+    }
+
+    return Object.fromEntries(entries.map(item => [item.key, item.floored]));
+}
+
+
 async function fetchAndProcessData(file) {
     try {
         const { volunteerData, categoryInfo } = await readLocalXLSX(file);
-
-
-        // Extract the rows, assuming first row is the header
-        const rows = volunteerData.slice(1); // Skip header row
+        const rows = volunteerData.slice(1);
 
         const categoryData = {};
         categoryInfo.slice(1).forEach(row => {
@@ -45,40 +68,33 @@ async function fetchAndProcessData(file) {
 
         const filteredData = [];
         const categoryCounts = {};
-        const categoryLocationCounts = {}; // Store category counts per location
-        const urenTotaal = rows[rows.length - 1][2]
-
-        console.log(categoryLocationCounts)
+        const categoryLocationCounts = {};
+        const urenTotaal = rows[rows.length - 1][2];
 
         rows.forEach((cells) => {
-            if (cells.length >= 7) { // Ensure enough columns exist
+            if (cells.length >= 7) {
                 const aantalUren = cells[2];
                 const maatschappelijkeOrganisatie = cells[3];
                 const locatie = cells[5];
                 const categorie = cells[6];
-                const quote1 = categoryData[categorie].quote1 ? categoryData[categorie].quote1 : "Vrijwilligerswerk is belangrijk!";
-                const quote2 = categoryData[categorie].quote2 ? categoryData[categorie].quote2 : "Vrijwilligerswerk is belangrijk!";
-                const imageFile = categoryData[categorie].image ? categoryData[categorie].image : "default";
+                const quote1 = categoryData[categorie]?.quote1 || "Vrijwilligerswerk is belangrijk!";
+                const quote2 = categoryData[categorie]?.quote2 || "Vrijwilligerswerk is belangrijk!";
+                const imageFile = categoryData[categorie]?.image || "default";
 
-
-                if (aantalUren && categorie && locatie) { // Filter rows with both B and D
+                if (aantalUren && categorie && locatie) {
                     const aantal = parseInt(aantalUren, 10) || 0;
 
-                    // Update counts for each category
-                    categoryCounts[categorie] = ((categoryCounts[categorie] || 0) + aantal);
+                    categoryCounts[categorie] = (categoryCounts[categorie] || 0) + aantal;
 
                     if (!categoryLocationCounts[categorie]) {
                         categoryLocationCounts[categorie] = { locations: {} };
                     }
-                    
-                    // Track hours per location inside each category
+
                     if (!categoryLocationCounts[categorie].locations[locatie]) {
                         categoryLocationCounts[categorie].locations[locatie] = 0;
                     }
                     categoryLocationCounts[categorie].locations[locatie] += aantal;
-                    
 
-                    // Add data to filtered list
                     filteredData.push({
                         maatschappelijkeOrganisatie,
                         aantalUren: aantal,
@@ -91,7 +107,6 @@ async function fetchAndProcessData(file) {
             }
         });
 
-        // Animate number increment function
         const animateCount = (element, start, end, duration, delay, suffix = '') => {
             setTimeout(() => {
                 const step = (timestamp, startTime, start, end, duration) => {
@@ -109,46 +124,42 @@ async function fetchAndProcessData(file) {
 
         const animateCount2 = (element, start, end, duration, delay, suffix = '') => {
             setTimeout(() => {
-                const stepSize = end >= 1000 ? 100 : 1; // Step by 100 for large numbers
-                const steps = Math.ceil((end - start) / stepSize); // Total steps
-                const interval = duration / steps; // Time per step
-        
+                const stepSize = end >= 1000 ? 100 : 1;
+                const steps = Math.ceil((end - start) / stepSize);
+                const interval = duration / steps;
+
                 let current = start;
                 const step = () => {
                     current += stepSize;
-                    if (current > end) current = end; // Ensure we land on the exact number
+                    if (current > end) current = end;
                     element.textContent = current + suffix;
                     if (current < end) {
                         setTimeout(step, interval);
                     }
                 };
-                step(); // Start animation
+                step();
             }, delay * 1000);
         };
-        
-        
 
-        // Fade-in effect
         const fadeInWithDelay = (element, delay) => {
             element.style.opacity = 0;
             element.style.animation = `fadeIn 0.5s ease-in ${delay}s forwards`;
         };
 
         const randomNumber = Math.floor(Math.random() * filteredData.length);
-        console.log(filteredData[randomNumber])
+        const randomCategorie = filteredData[randomNumber].categorie;
 
-        // Update UI with animations
         const percentage = document.getElementById('percentage');
         fadeInWithDelay(percentage, 0.33);
-        animateCount(percentage, 0, categoryCounts[filteredData[randomNumber].categorie] / urenTotaal * 100, 1000, 0.5, '%');
+        animateCount(percentage, 0, categoryCounts[randomCategorie] / urenTotaal * 100, 1000, 0.5, '%');
 
         const statement = document.getElementById('statement');
-        statement.innerHTML = 'doet vrijwilligerswerk ' + filteredData[randomNumber].categorie;
+        statement.innerHTML = 'doet vrijwilligerswerk ' + randomCategorie;
         fadeInWithDelay(statement, 0.66);
 
         const amount = document.getElementById('amount');
         fadeInWithDelay(amount, 1);
-        animateCount2(amount, 0, categoryCounts[filteredData[randomNumber].categorie], 1000, 1, ' uur');
+        animateCount2(amount, 0, categoryCounts[randomCategorie], 1000, 1, ' uur');
 
         const quoteElem = document.getElementById('quote');
         quoteElem.innerHTML = '"' + filteredData[randomNumber].quote1 + '"';
@@ -163,80 +174,71 @@ async function fetchAndProcessData(file) {
         fadeInWithDelay(imgNew, 0.1);
 
         const poster = document.getElementById('posterWrap');
-        poster.className = filteredData[randomNumber].categorie;
-
+        poster.className = randomCategorie;
 
         const categories = document.getElementById('categories');
         const locations = document.getElementById('locations');
 
-        const totalCategoryCount = Object.values(categoryLocationCounts[filteredData[randomNumber].categorie].locations).reduce((sum, count) => sum + count, 0);
-
-        locations.innerHTML = `
-            ${Object.entries(categoryLocationCounts[filteredData[randomNumber].categorie].locations).map(([location, count]) => {
-                const percentage = (count / totalCategoryCount) * 100; // Calculate percentage
-                const fontSize = Math.max(1, percentage / 30); // Scale font-size, min 8px
-                const size = Math.max(25, percentage * 1); // Scale font-size, min 8px
-
-                console.log(location)
-                
-                return `
-                    <div class="location" 
-                        style="opacity: 0; 
-                            animation: fadeIn 0.5s ease-in forwards; 
-                            width: ${size}%;
-                            font-size: ${fontSize}vh;">
-                        ${location} <br/> 
-                        <span class="count2" data-count="${percentage.toFixed(1)}"></span>
-                    </div>
-                `;
-            }).join('')}
-        `;
-        
-
-        // Sort categories from highest to lowest percentage and get the top 5
-        const sortedCategories = Object.entries(categoryCounts)
-            .sort((a, b) => b[1] - a[1]) // Sort by count (highest first)
-            .slice(0, 4); // Take only the top 5 categories
+        // === ✅ Use smart normalization for categories ===
+        const normalizedCategoryPercentages = normalizePercentages(categoryCounts);
 
         categories.innerHTML = `
-            ${sortedCategories.map(([category, count]) => {
-                const percentage = (count / urenTotaal) * 100; // Calculate percentage
-                const fontSize = Math.max(1, percentage / 15); // Scale font-size, min 8px
-                const size = Math.max(30, percentage * 1.6); // Scale font-size, min 8px
-                
-                return `
-                    <div class="category" 
-                        style="opacity: 0; 
-                            animation: fadeIn 0.5s ease-in forwards; 
-                            width: ${size}%;
-                            font-size: ${fontSize}vh;">
-                        ${category} <br/> 
-                        <span class="count" data-count="${percentage.toFixed(1)}">0</span>
-                    </div>
-                `;
-            }).join('')}
+            ${Object.entries(normalizedCategoryPercentages)
+                .sort((a, b) => b[1] - a[1])
+                .map(([category, percentage]) => {
+                    const fontSize = Math.max(0.8, percentage / 15);
+                    const size = Math.max(24, percentage * 1.6);
+                    return `
+                        <div class="category" 
+                            style="opacity: 0; 
+                                animation: fadeIn 0.5s ease-in forwards; 
+                                width: ${size}%;
+                                font-size: ${fontSize}vh;">
+                            ${category} <br/> 
+                            <span class="count" data-count="${percentage}">0</span>
+                        </div>
+                    `;
+                }).join('')}
         `;
-        
-        // Animate category counts with staggered delays
+
+        // === ✅ Use smart normalization for LOCATIONS ===
+        const locCounts = categoryLocationCounts[randomCategorie].locations;
+        const normalizedLocationPercentages = normalizePercentages(locCounts);
+
+        locations.innerHTML = `
+            ${Object.entries(normalizedLocationPercentages)
+                .map(([location, percentage]) => {
+                    const fontSize = Math.max(0.8, percentage / 30);
+                    const size = Math.max(20, percentage * 0.9);
+                    return `
+                        <div class="location" 
+                            style="opacity: 0; 
+                                animation: fadeIn 0.5s ease-in forwards; 
+                                width: ${size}%;
+                                font-size: ${fontSize}vh;">
+                            ${location} <br/> 
+                            <span class="count2" data-count="${percentage}"></span>
+                        </div>
+                    `;
+                }).join('')}
+        `;
+
+        // === Animate counters ===
         document.querySelectorAll('.count2').forEach((span, index) => {
             const target = parseFloat(span.getAttribute('data-count'));
             animateCount(span, 0, target, 1000, 1.33 + index * 0.5, '%');
         });
 
-        // Apply staggered fade-in for each location
         document.querySelectorAll('.location').forEach((div, index) => {
             const delay = 1.33 + index * 0.5;
             div.style.animationDelay = `${delay}s`;
         });
-        
-        
-        // Animate category counts with staggered delays
+
         document.querySelectorAll('.count').forEach((span, index) => {
             const target = parseFloat(span.getAttribute('data-count'));
             animateCount(span, 0, target, 1000, 1.33 + index * 0.5, '%');
         });
 
-        // Apply staggered fade-in for each category
         document.querySelectorAll('.category').forEach((div, index) => {
             const delay = 1.33 + index * 0.5;
             div.style.animationDelay = `${delay}s`;
@@ -246,6 +248,8 @@ async function fetchAndProcessData(file) {
         console.error('Error reading XLSX file:', error);
     }
 }
+
+
 
 // Handle file input
 document.getElementById('fileInput').addEventListener('change', function(event) {

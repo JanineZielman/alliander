@@ -74,7 +74,7 @@ h2{
 .categories{
   display: flex;
   flex-wrap: wrap;
-  max-height: 40vh;
+  max-height: 35vh;
   flex-direction: column;
   margin-top: 10px;
 }
@@ -98,16 +98,26 @@ h2{
   -webkit-box-shadow: 2px 2px 18px -2px rgba(0,0,0,0.2);
   -moz-box-shadow: 2px 2px 18px -2px rgba(0,0,0,0.2);
   box-shadow: 2px 2px 18px -2px rgba(0,0,0,0.2);
+  line-height: 1;
+}
+
+.categories :nth-child(5){
+  margin-left: -18%;
+}
+
+.categories :nth-child(6){
+  margin-top: -27%;
+  margin-left: 10%;
 }
 
 .locations{
   display: none;
   flex-wrap: wrap;
-  max-height: 40vh;
+  height: 35vh;
   max-width: 805;
   /* flex-direction: column; */
   margin-top: 0;
-  justify-content: right;
+  justify-content: end;
   align-items: end;
   
 }
@@ -301,6 +311,7 @@ h2{
     min-width: 2ch; 
     text-align: center; 
     font-family: monospace; 
+    padding-top: 3px;
 }
 
 .logo{
@@ -375,12 +386,6 @@ h2{
   display: flex;
 }
 
-/* .poster.loc #amount{
-  position: absolute;
-  bottom: 10vh;
-  right: 5%;
-  left: auto;
-} */
 
 .poster.loc h2{
   position: absolute;
