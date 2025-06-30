@@ -146,12 +146,16 @@ async function fetchAndProcessData(file) {
             element.style.animation = `fadeIn 0.5s ease-in ${delay}s forwards`;
         };
 
+        // === ✅ Use smart normalization for categories ===
+        const normalizedCategoryPercentages = normalizePercentages(categoryCounts);
+
         const randomNumber = Math.floor(Math.random() * filteredData.length);
         const randomCategorie = filteredData[randomNumber].categorie;
 
         const percentage = document.getElementById('percentage');
         fadeInWithDelay(percentage, 0.33);
-        animateCount(percentage, 0, categoryCounts[randomCategorie] / urenTotaal * 100, 1000, 0.5, '%');
+        animateCount(percentage, 0, normalizedCategoryPercentages[randomCategorie], 1000, 0.5, '%');
+
 
         const statement = document.getElementById('statement');
         statement.innerHTML = 'doet vrijwilligerswerk ' + randomCategorie;
@@ -179,8 +183,6 @@ async function fetchAndProcessData(file) {
         const categories = document.getElementById('categories');
         const locations = document.getElementById('locations');
 
-        // === ✅ Use smart normalization for categories ===
-        const normalizedCategoryPercentages = normalizePercentages(categoryCounts);
 
         categories.innerHTML = `
             ${Object.entries(normalizedCategoryPercentages)
